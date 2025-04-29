@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title>Datatables - Kaiadmin Bootstrap 5 Admin Dashboard</title>
     <meta
-      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
-      name="viewport"
+            content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+            name="viewport"
     />
-   <link href="{{ url_for('static', path='/assets/img/kaiadmin/favicon.ico') }}" rel="icon" type="image/x-icon">
+    <link href="{{ url_for('static', path='/assets/img/kaiadmin/favicon.ico') }}" rel="icon" type="image/x-icon">
 
     <!-- Fonts and icons -->
     <script src="{{ url_for('static', path='/assets/js/plugin/webfont/webfont.min.js') }}"></script>
     <script>
-      WebFont.load({
-        google: { families: ["Public Sans:300,400,500,600,700"] },
-        custom: {
-          families: [
-            "Font Awesome 5 Solid",
-            "Font Awesome 5 Regular",
-            "Font Awesome 5 Brands",
-            "simple-line-icons",
-          ],
-          urls: ["../assets/css/fonts.min.css"],
-        },
-        active: function () {
-          sessionStorage.fonts = true;
-        },
-      });
+        WebFont.load({
+          google: { families: ["Public Sans:300,400,500,600,700"] },
+          custom: {
+            families: [
+              "Font Awesome 5 Solid",
+              "Font Awesome 5 Regular",
+              "Font Awesome 5 Brands",
+              "simple-line-icons",
+            ],
+            urls: ["../assets/css/fonts.min.css"],
+          },
+          active: function () {
+            sessionStorage.fonts = true;
+          },
+        });
     </script>
 
     <!-- CSS Files -->
@@ -36,763 +36,868 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="{{ url_for('static', path='/assets/css/demo.css') }}" rel="stylesheet">
-  </head>
-  <body>
-    <div class="wrapper">
-      <!-- Sidebar -->
-      <div class="sidebar" data-background-color="dark">
+</head>
+<body>
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div class="sidebar" data-background-color="dark">
         <div class="sidebar-logo">
-          <!-- Logo Header -->
-          <div class="logo-header" data-background-color="dark">
-            <a href="{{ url_for('index') }}">
-              <img src="{{ url_for('static', path='/assets/img/kaiadmin/logo_light.svg') }}" alt="navbar brand" class="navbar-brand" height="20">
-            </a>
-            <div class="nav-toggle">
-              <button class="btn btn-toggle toggle-sidebar">
-                <i class="gg-menu-right"></i>
-              </button>
-              <button class="btn btn-toggle sidenav-toggler">
-                <i class="gg-menu-left"></i>
-              </button>
+            <!-- Logo Header -->
+            <div class="logo-header" data-background-color="dark">
+                <a href="{{ url_for('index') }}">
+                    <img src="{{ url_for('static', path='/assets/img/logo-outline.png') }}" alt="navbar brand"
+                         class="navbar-brand" height="40">
+                </a>
+                <div class="nav-toggle">
+                    <button class="btn btn-toggle toggle-sidebar">
+                        <i class="gg-menu-right"></i>
+                    </button>
+                    <button class="btn btn-toggle sidenav-toggler">
+                        <i class="gg-menu-left"></i>
+                    </button>
+                </div>
+                <button class="topbar-toggler more">
+                    <i class="gg-more-vertical-alt"></i>
+                </button>
             </div>
-            <button class="topbar-toggler more">
-              <i class="gg-more-vertical-alt"></i>
-            </button>
-          </div>
-          <!-- End Logo Header -->
+            <!-- End Logo Header -->
         </div>
         <div class="sidebar-wrapper scrollbar scrollbar-inner">
-          <div class="sidebar-content">
-            <ul class="nav nav-secondary">
-              <li class="nav-section">
+            <div class="sidebar-content">
+                <ul class="nav nav-secondary">
+                    <li class="nav-section">
                 <span class="sidebar-mini-icon">
                   <i class="fa fa-ellipsis-h"></i>
                 </span>
-                <h4 class="text-section">Menu</h4>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#tables">
-                  <i class="fas fa-table"></i>
-                  <p>Videos</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="tables">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="{{ url_for('datatables', offset=0) }}">
-                        <span class="sub-item">List</span>
-                      </a>
+                        <h4 class="text-section">Menu</h4>
                     </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#forms">
-                  <i class="fas fa-pen-square"></i>
-                  <p>Data</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="forms">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="forms/forms.html">
-                        <span class="sub-item">Servers</span>
-                      </a>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#tables">
+                            <i class="fas fa-table"></i>
+                            <p>Videos</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="tables">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="{{ url_for('datatables', offset=0) }}">
+                                        <span class="sub-item">List</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
-                  </ul>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <!-- End Sidebar -->
-
-      <div class="main-panel">
-        <div class="main-header">
-          <div class="main-header-logo">
-            <!-- Logo Header -->
-            <div class="logo-header" data-background-color="dark">
-              <a href="{{ url_for('index') }}">
-                <img src="{{ url_for('static', path='/assets/img/kaiadmin/logo_light.svg') }}" alt="navbar brand" class="navbar-brand" height="20">
-              </a>
-              <div class="nav-toggle">
-                <button class="btn btn-toggle toggle-sidebar">
-                  <i class="gg-menu-right"></i>
-                </button>
-                <button class="btn btn-toggle sidenav-toggler">
-                  <i class="gg-menu-left"></i>
-                </button>
-              </div>
-              <button class="topbar-toggler more">
-                <i class="gg-more-vertical-alt"></i>
-              </button>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#forms">
+                            <i class="fas fa-pen-square"></i>
+                            <p>Data</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="forms">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="forms/forms.html">
+                                        <span class="sub-item">Servers</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
             </div>
-            <!-- End Logo Header -->
-          </div>
-          <!-- Navbar Header -->
-          <nav
-            class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
-          >
-            <div class="container-fluid">
-              <nav
-                class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
-              >
-              </nav>
+        </div>
+    </div>
+    <!-- End Sidebar -->
 
-              <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-                <li
-                  class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none"
-                >
-                  <a
-                    class="nav-link dropdown-toggle"
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    role="button"
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                  >
-                    <i class="fa fa-search"></i>
-                  </a>
-                  <ul class="dropdown-menu dropdown-search animated fadeIn">
-                    <form class="navbar-left navbar-form nav-search">
-                      <div class="input-group">
-                        <input
-                          type="text"
-                          placeholder="Search ..."
-                          class="form-control"
-                        />
-                      </div>
-                    </form>
-                  </ul>
-                </li>
-                <li class="nav-item topbar-icon dropdown hidden-caret">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    id="messageDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <i class="fa fa-envelope"></i>
-                  </a>
-                  <ul
-                    class="dropdown-menu messages-notif-box animated fadeIn"
-                    aria-labelledby="messageDropdown"
-                  >
-                    <li>
-                      <div
-                        class="dropdown-title d-flex justify-content-between align-items-center"
-                      >
-                        Messages
-                        <a href="#" class="small">Mark all as read</a>
-                      </div>
-                    </li>
-                    <li>
-                      <a class="see-all" href="javascript:void(0);"
-                        >See all messages<i class="fa fa-angle-right"></i>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item topbar-icon dropdown hidden-caret">
-                  <ul
-                    class="dropdown-menu notif-box animated fadeIn"
-                    aria-labelledby="notifDropdown"
-                  >
-                    <li>
-                      <div class="dropdown-title">
-                        You have 4 new notification
-                      </div>
-                    </li>
-                    <li>
-                      <div class="notif-scroll scrollbar-outer">
-                        <div class="notif-center">
-                          <a href="#">
-                            <div class="notif-icon notif-primary">
-                              <i class="fa fa-user-plus"></i>
-                            </div>
-                            <div class="notif-content">
-                              <span class="block"> New user registered </span>
-                              <span class="time">5 minutes ago</span>
-                            </div>
-                          </a>
-                          <a href="#">
-                            <div class="notif-icon notif-success">
-                              <i class="fa fa-comment"></i>
-                            </div>
-                            <div class="notif-content">
+    <div class="main-panel">
+        <div class="main-header">
+            <div class="main-header-logo">
+                <!-- Logo Header -->
+                <div class="logo-header" data-background-color="dark">
+                    <a href="{{ url_for('index') }}">
+                        <img src="{{ url_for('static', path='/assets/img/kaiadmin/logo_light.svg') }}"
+                             alt="navbar brand" class="navbar-brand" height="20">
+                    </a>
+                    <div class="nav-toggle">
+                        <button class="btn btn-toggle toggle-sidebar">
+                            <i class="gg-menu-right"></i>
+                        </button>
+                        <button class="btn btn-toggle sidenav-toggler">
+                            <i class="gg-menu-left"></i>
+                        </button>
+                    </div>
+                    <button class="topbar-toggler more">
+                        <i class="gg-more-vertical-alt"></i>
+                    </button>
+                </div>
+                <!-- End Logo Header -->
+            </div>
+            <!-- Navbar Header -->
+            <nav
+                    class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
+            >
+                <div class="container-fluid">
+                    <nav
+                            class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
+                    >
+                    </nav>
+
+                    <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                        <li
+                                class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none"
+                        >
+                            <a
+                                    class="nav-link dropdown-toggle"
+                                    data-bs-toggle="dropdown"
+                                    href="#"
+                                    role="button"
+                                    aria-expanded="false"
+                                    aria-haspopup="true"
+                            >
+                                <i class="fa fa-search"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-search animated fadeIn">
+                                <form class="navbar-left navbar-form nav-search">
+                                    <div class="input-group">
+                                        <input
+                                                type="text"
+                                                placeholder="Search ..."
+                                                class="form-control"
+                                        />
+                                    </div>
+                                </form>
+                            </ul>
+                        </li>
+                        <li class="nav-item topbar-icon dropdown hidden-caret">
+                            <a
+                                    class="nav-link dropdown-toggle"
+                                    href="#"
+                                    id="messageDropdown"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                            >
+                                <i class="fa fa-envelope"></i>
+                            </a>
+                            <ul
+                                    class="dropdown-menu messages-notif-box animated fadeIn"
+                                    aria-labelledby="messageDropdown"
+                            >
+                                <li>
+                                    <div
+                                            class="dropdown-title d-flex justify-content-between align-items-center"
+                                    >
+                                        Messages
+                                        <a href="#" class="small">Mark all as read</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="see-all" href="javascript:void(0);"
+                                    >See all messages<i class="fa fa-angle-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item topbar-icon dropdown hidden-caret">
+                            <ul
+                                    class="dropdown-menu notif-box animated fadeIn"
+                                    aria-labelledby="notifDropdown"
+                            >
+                                <li>
+                                    <div class="dropdown-title">
+                                        You have 4 new notification
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="notif-scroll scrollbar-outer">
+                                        <div class="notif-center">
+                                            <a href="#">
+                                                <div class="notif-icon notif-primary">
+                                                    <i class="fa fa-user-plus"></i>
+                                                </div>
+                                                <div class="notif-content">
+                                                    <span class="block"> New user registered </span>
+                                                    <span class="time">5 minutes ago</span>
+                                                </div>
+                                            </a>
+                                            <a href="#">
+                                                <div class="notif-icon notif-success">
+                                                    <i class="fa fa-comment"></i>
+                                                </div>
+                                                <div class="notif-content">
                               <span class="block">
                                 Rahmad commented on Admin
                               </span>
-                              <span class="time">12 minutes ago</span>
-                            </div>
-                          </a>
-                          <a href="#">
-                            <div class="notif-img">
-                              <img
-                                src="assets/img/profile2.jpg"
-                                alt="Img Profile"
-                              />
-                            </div>
-                            <div class="notif-content">
+                                                    <span class="time">12 minutes ago</span>
+                                                </div>
+                                            </a>
+                                            <a href="#">
+                                                <div class="notif-img">
+                                                    <img
+                                                            src="assets/img/profile2.jpg"
+                                                            alt="Img Profile"
+                                                    />
+                                                </div>
+                                                <div class="notif-content">
                               <span class="block">
                                 Reza send messages to you
                               </span>
-                              <span class="time">12 minutes ago</span>
+                                                    <span class="time">12 minutes ago</span>
+                                                </div>
+                                            </a>
+                                            <a href="#">
+                                                <div class="notif-icon notif-danger">
+                                                    <i class="fa fa-heart"></i>
+                                                </div>
+                                                <div class="notif-content">
+                                                    <span class="block"> Farrah liked Admin </span>
+                                                    <span class="time">17 minutes ago</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="see-all" href="javascript:void(0);"
+                                    >See all notifications<i class="fa fa-angle-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item topbar-icon dropdown hidden-caret">
+                            <a
+                                    class="nav-link"
+                                    data-bs-toggle="dropdown"
+                                    href="#"
+                                    aria-expanded="false"
+                            >
+                                <i class="fas fa-layer-group"></i>
+                            </a>
+                            <div class="dropdown-menu quick-actions animated fadeIn">
+                                <div class="quick-actions-header">
+                                    <span class="title mb-1">Quick Actions</span>
+                                    <span class="subtitle op-7">Shortcuts</span>
+                                </div>
+                                <div class="quick-actions-scroll scrollbar-outer">
+                                    <div class="quick-actions-items">
+                                        <div class="row m-0">
+                                            <a class="col-6 col-md-4 p-0" href="#">
+                                                <div class="quick-actions-item">
+                                                    <div class="avatar-item bg-danger rounded-circle">
+                                                        <i class="far fa-calendar-alt"></i>
+                                                    </div>
+                                                    <span class="text">Calendar</span>
+                                                </div>
+                                            </a>
+                                            <a class="col-6 col-md-4 p-0" href="#">
+                                                <div class="quick-actions-item">
+                                                    <div
+                                                            class="avatar-item bg-warning rounded-circle"
+                                                    >
+                                                        <i class="fas fa-map"></i>
+                                                    </div>
+                                                    <span class="text">Maps</span>
+                                                </div>
+                                            </a>
+                                            <a class="col-6 col-md-4 p-0" href="#">
+                                                <div class="quick-actions-item">
+                                                    <div class="avatar-item bg-info rounded-circle">
+                                                        <i class="fas fa-file-excel"></i>
+                                                    </div>
+                                                    <span class="text">Reports</span>
+                                                </div>
+                                            </a>
+                                            <a class="col-6 col-md-4 p-0" href="#">
+                                                <div class="quick-actions-item">
+                                                    <div
+                                                            class="avatar-item bg-success rounded-circle"
+                                                    >
+                                                        <i class="fas fa-envelope"></i>
+                                                    </div>
+                                                    <span class="text">Emails</span>
+                                                </div>
+                                            </a>
+                                            <a class="col-6 col-md-4 p-0" href="#">
+                                                <div class="quick-actions-item">
+                                                    <div
+                                                            class="avatar-item bg-primary rounded-circle"
+                                                    >
+                                                        <i class="fas fa-file-invoice-dollar"></i>
+                                                    </div>
+                                                    <span class="text">Invoice</span>
+                                                </div>
+                                            </a>
+                                            <a class="col-6 col-md-4 p-0" href="#">
+                                                <div class="quick-actions-item">
+                                                    <div
+                                                            class="avatar-item bg-secondary rounded-circle"
+                                                    >
+                                                        <i class="fas fa-credit-card"></i>
+                                                    </div>
+                                                    <span class="text">Payments</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                          </a>
-                          <a href="#">
-                            <div class="notif-icon notif-danger">
-                              <i class="fa fa-heart"></i>
-                            </div>
-                            <div class="notif-content">
-                              <span class="block"> Farrah liked Admin </span>
-                              <span class="time">17 minutes ago</span>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <a class="see-all" href="javascript:void(0);"
-                        >See all notifications<i class="fa fa-angle-right"></i>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item topbar-icon dropdown hidden-caret">
-                  <a
-                    class="nav-link"
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    aria-expanded="false"
-                  >
-                    <i class="fas fa-layer-group"></i>
-                  </a>
-                  <div class="dropdown-menu quick-actions animated fadeIn">
-                    <div class="quick-actions-header">
-                      <span class="title mb-1">Quick Actions</span>
-                      <span class="subtitle op-7">Shortcuts</span>
-                    </div>
-                    <div class="quick-actions-scroll scrollbar-outer">
-                      <div class="quick-actions-items">
-                        <div class="row m-0">
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div class="avatar-item bg-danger rounded-circle">
-                                <i class="far fa-calendar-alt"></i>
-                              </div>
-                              <span class="text">Calendar</span>
-                            </div>
-                          </a>
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div
-                                class="avatar-item bg-warning rounded-circle"
-                              >
-                                <i class="fas fa-map"></i>
-                              </div>
-                              <span class="text">Maps</span>
-                            </div>
-                          </a>
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div class="avatar-item bg-info rounded-circle">
-                                <i class="fas fa-file-excel"></i>
-                              </div>
-                              <span class="text">Reports</span>
-                            </div>
-                          </a>
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div
-                                class="avatar-item bg-success rounded-circle"
-                              >
-                                <i class="fas fa-envelope"></i>
-                              </div>
-                              <span class="text">Emails</span>
-                            </div>
-                          </a>
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div
-                                class="avatar-item bg-primary rounded-circle"
-                              >
-                                <i class="fas fa-file-invoice-dollar"></i>
-                              </div>
-                              <span class="text">Invoice</span>
-                            </div>
-                          </a>
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div
-                                class="avatar-item bg-secondary rounded-circle"
-                              >
-                                <i class="fas fa-credit-card"></i>
-                              </div>
-                              <span class="text">Payments</span>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
+                        </li>
 
                         <li class="nav-item topbar-user dropdown hidden-caret">
-                  <a
-                    class="dropdown-toggle profile-pic"
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    aria-expanded="false"
-                  >
+                            <a
+                                    class="dropdown-toggle profile-pic"
+                                    data-bs-toggle="dropdown"
+                                    href="#"
+                                    aria-expanded="false"
+                            >
                     <span class="profile-username">
                       <span class="op-7">Hi,</span>
                       <span class="fw-bold">{{current_user}}</span>
                     </span>
-                  </a>
-                  <ul class="dropdown-menu dropdown-user animated fadeIn">
-                    <div class="dropdown-user-scroll scrollbar-outer">
-                      <li>
-                        <div class="user-box">
-                          <div class="avatar-lg">
-                            <img src="{{ url_for('static', path='/assets/img/profile_placeholder.png') }}" alt="image profile" class="avatar-img rounded">
-                          </div>
-                          <div class="u-text">
-                            <p class="text-muted">{{current_user}}</p>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="dropdown-divider"></div>
-                        <a href="{{ url_for('logout') }}" class="dropdown-item">
-                          Logout
-                        </a>
-                      </li>
-                    </div>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          </nav>
-          <!-- End Navbar -->
+                            </a>
+                            <ul class="dropdown-menu dropdown-user animated fadeIn">
+                                <div class="dropdown-user-scroll scrollbar-outer">
+                                    <li>
+                                        <div class="user-box">
+                                            <div class="avatar-lg">
+                                                <img src="{{ url_for('static', path='/assets/img/profile_placeholder.png') }}"
+                                                     alt="image profile" class="avatar-img rounded">
+                                            </div>
+                                            <div class="u-text">
+                                                <p class="text-muted">{{current_user}}</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                        <a href="{{ url_for('logout') }}" class="dropdown-item">
+                                            Logout
+                                        </a>
+                                    </li>
+                                </div>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- End Navbar -->
         </div>
 
         <div class="container">
-          <div class="page-inner">
-            <div class="page-header">
-              <h3 class="fw-bold mb-3">Videos</h3>
-              <ul class="breadcrumbs mb-3">
-                <li class="nav-home">
-                  <a href="#">
-                    <i class="icon-home"></i>
-                  </a>
-                </li>
-                <li class="separator">
-                  <i class="icon-arrow-right"></i>
-                </li>
-              </ul>
-            </div>
-
-            <div class="accordion accordion-flush" id="accordionFlushExample">
-              <div class="accordion-item">
-                <h2 class="accordion-header">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                    Search params
-                  </button>
-                </h2>
-                <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                  <div class="accordion-body">
-
-                      <form>
-                          <div class="form-row">
-                            <div class="col-md-4 mb-3">
-                              <label for="validationDefault01">Filed 1</label>
-                              <input type="text" class="form-control" id="validationDefault01" placeholder="First name" value="Mark" required>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                              <label for="validationDefault02">Field 2</label>
-                              <input type="text" class="form-control" id="validationDefault02" placeholder="Last name" value="Otto" required>
-                            </div>
-                          </div>
-                          <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                              <label for="validationDefault03">City</label>
-                              <input type="text" class="form-control" id="validationDefault03" placeholder="City" required>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                              <label for="validationDefault04">State</label>
-                              <input type="text" class="form-control" id="validationDefault04" placeholder="State" required>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                              <label for="validationDefault05">Zip</label>
-                              <input type="text" class="form-control" id="validationDefault05" placeholder="Zip" required>
-                            </div>
-                          </div>
-                          <button class="btn btn-primary" type="submit">Submit form</button>
-                          <div class="col-md-3 mb-3">
-                          </div>
-                    </form>
-
-                  </div>
+            <div class="page-inner">
+                <div class="page-header">
+                    <h3 class="fw-bold mb-3">Videos</h3>
+                    <ul class="breadcrumbs mb-3">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="icon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="icon-arrow-right"></i>
+                        </li>
+                    </ul>
                 </div>
-              </div>
-            </div>
 
-            <br>
-            <div class="form-row">
-              <a href="{{ url_for('datatables', offset=prev) }}">
-                <button type="button" class="btn btn-primary">Prev</button>
-              </a>
-              <a href="{{ url_for('datatables', offset=next) }}">
-                <button type="button" class="btn btn-primary">Next</button>
-              </a>
-            </div>
-
-            <div class="row">
-              <div class="col-md-12">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="table-responsive">
-                      <table
-                        id="basic-datatables"
-                        class="display table table-striped table-hover"
-                      >
-                        <thead>
-                          <tr>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>
-                            <th>Age</th>
-                            <th>Start date</th>
-                            <th>Salary</th>
-                          </tr>
-                        </thead>
-                        <tfoot>
-                          <tr>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>
-                            <th>Age</th>
-                            <th>Start date</th>
-                            <th>Salary</th>
-                          </tr>
-                        </tfoot>
-                        <tbody>
-                          {% for video in file_su_server %}
-                          <tr>
-                            <td>{{ video['fs_id'] }}</td>
-                            <td>{{ video['fs_nome_file'] }}</td>
-                            <td>{{ video['fs_dimensioni'] }}</td>
-                            <td>{{ video['fs_durata'] }}</td>
-                            <td>{{ video['fs_width'] }}</td>
-                            <td>{{ video['fs_height'] }}</td>
-                          </tr>
-                          {% endfor %}
-                        </tbody>
-                      </table>
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                    aria-controls="flush-collapseOne">
+                                Search params
+                            </button>
+                        </h2>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse"
+                             data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                <form action="/data_paging" method="post">
+                                    <div class="form-row">
+                                        <div class="col-md-4 mb-3">
+                                            <label for="validationDefault01">Nome file</label>
+                                            <input type="text" class="form-control" id="validationDefault01"
+                                                   placeholder="Filename" value="{{file_name}}" name="file_name"
+                                                   required>
+                                            <input type="hidden" name="offset" value="0">
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit">Search</button>
+                                    <div class="col-md-3 mb-3">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
+
+                <br>
+
+                <div>Pages: {{current_page}} / {{total_pages}} | Total results: {{total_size}}</div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="container mt-5">
+                                <div class="row justify-content-center">
+
+                                    <div class="col-md-2">
+                                        <form action="/data_paging" method="post">
+                                            <div class="mb-3">
+                                                <input type="hidden" name="offset" value="0">
+                                                <input type="hidden" name="file_name" value="{{file_name}}">
+                                            </div>
+                                            {% if current_page == 1 %}
+                                            <button type="button" class="btn btn-light w-50">|<</button>
+                                            {% else %}
+                                            <button type="submit" class="btn btn-dark w-50">|<</button>
+                                            {% endif %}
+                                        </form>
+                                    </div>
+                                    <!-- Primo form -->
+                                    <div class="col-md-2">
+                                        <form action="/data_paging" method="post">
+                                            <div class="mb-3">
+                                                <input type="hidden" name="offset" value="{{prev}}">
+                                                <input type="hidden" name="file_name" value="{{file_name}}">
+                                            </div>
+                                            {% if current_page == 1 %}
+                                            <button type="button" class="btn btn-light w-50">Prev</button>
+                                            {% else %}
+                                            <button type="submit" class="btn btn-dark w-50">Prev</button>
+                                            {% endif %}
+                                        </form>
+                                    </div>
+
+                                    <!-- Secondo form -->
+                                    <div class="col-md-2">
+                                        <form action="/data_paging" method="post">
+                                            <div class="mb-3">
+                                                <input type="hidden" name="offset" value="{{next}}">
+                                                <input type="hidden" name="file_name" value="{{file_name}}">
+                                            </div>
+                                            {% if current_page == total_pages %}
+                                            <button type="button" class="btn btn-light w-50">Next</button>
+                                            {% else %}
+                                            <button type="submit" class="btn btn-dark w-50">Next</button>
+                                            {% endif %}
+                                        </form>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <form action="/data_paging" method="post">
+                                            <div class="mb-3">
+                                                <input type="hidden" name="offset" value="{{last_page_offset}}">
+                                                <input type="hidden" name="file_name" value="{{file_name}}">
+                                            </div>
+                                            {% if current_page == total_pages %}
+                                            <button type="button" class="btn btn-light w-50">>|</button>
+                                            {% else %}
+                                            <button type="submit" class="btn btn-dark w-50">>|</button>
+                                            {% endif %}
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table
+                                            id="basic-datatables"
+                                            class="display table table-striped table-hover"
+                                    >
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nome file</th>
+                                            <th>Dimensione</th>
+                                            <th>Durata</th>
+                                            <th>Width</th>
+                                            <th>Height</th>
+                                        </tr>
+                                        </thead>
+                                        <tfoot>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nome file</th>
+                                            <th>Dimensione</th>
+                                            <th>Durata</th>
+                                            <th>Width</th>
+                                            <th>Height</th>
+                                        </tr>
+                                        </tfoot>
+                                        <tbody>
+                                        {% for video in file_su_server %}
+                                        <tr>
+                                            <td>{{ video['fs_id'] }}</td>
+                                            <td>{{ video['fs_nome_file'] }}</td>
+                                            <td>{{ video['fs_dimensioni'] }}</td>
+                                            <td>{{ video['fs_durata'] }}</td>
+                                            <td>{{ video['fs_width'] }}</td>
+                                            <td>{{ video['fs_height'] }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="container mt-5">
+                                <div class="row justify-content-center">
+
+                                    <div class="col-md-2">
+                                        <form action="/data_paging" method="post">
+                                            <div class="mb-3">
+                                                <input type="hidden" name="offset" value="0">
+                                                <input type="hidden" name="file_name" value="{{file_name}}">
+                                            </div>
+                                            {% if current_page == 1 %}
+                                            <button type="button" class="btn btn-light w-50">|<</button>
+                                            {% else %}
+                                            <button type="submit" class="btn btn-dark w-50">|<</button>
+                                            {% endif %}
+                                        </form>
+                                    </div>
+                                    <!-- Primo form -->
+                                    <div class="col-md-2">
+                                        <form action="/data_paging" method="post">
+                                            <div class="mb-3">
+                                                <input type="hidden" name="offset" value="{{prev}}">
+                                                <input type="hidden" name="file_name" value="{{file_name}}">
+                                            </div>
+                                            {% if current_page == 1 %}
+                                            <button type="button" class="btn btn-light w-50">Prev</button>
+                                            {% else %}
+                                            <button type="submit" class="btn btn-dark w-50">Prev</button>
+                                            {% endif %}
+                                        </form>
+                                    </div>
+
+                                    <!-- Secondo form -->
+                                    <div class="col-md-2">
+                                        <form action="/data_paging" method="post">
+                                            <div class="mb-3">
+                                                <input type="hidden" name="offset" value="{{next}}">
+                                                <input type="hidden" name="file_name" value="{{file_name}}">
+                                            </div>
+                                            {% if current_page == total_pages %}
+                                            <button type="button" class="btn btn-light w-50">Next</button>
+                                            {% else %}
+                                            <button type="submit" class="btn btn-dark w-50">Next</button>
+                                            {% endif %}
+                                        </form>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <form action="/data_paging" method="post">
+                                            <div class="mb-3">
+                                                <input type="hidden" name="offset" value="{{last_page_offset}}">
+                                                <input type="hidden" name="file_name" value="{{file_name}}">
+                                            </div>
+                                            {% if current_page == total_pages %}
+                                            <button type="button" class="btn btn-light w-50">>|</button>
+                                            {% else %}
+                                            <button type="submit" class="btn btn-dark w-50">>|</button>
+                                            {% endif %}
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
 
         <footer class="footer">
-          <div class="container-fluid d-flex justify-content-between">
-            <nav class="pull-left">
-              <ul class="nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="http://www.themekita.com">
-                    ThemeKita
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"> Help </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"> Licenses </a>
-                </li>
-              </ul>
-            </nav>
-            <div class="copyright">
-              2024, made with <i class="fa fa-heart heart text-danger"></i> by
-              <a href="http://www.themekita.com">ThemeKita</a>
+            <div class="container-fluid d-flex justify-content-between">
+                <nav class="pull-left">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://www.themekita.com">
+                                ThemeKita
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"> Help </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"> Licenses </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="copyright">
+                    2024, made with <i class="fa fa-heart heart text-danger"></i> by
+                    <a href="http://www.themekita.com">ThemeKita</a>
+                </div>
+                <div>
+                    Distributed by
+                    <a target="_blank" href="https://themewagon.com/">ThemeWagon</a>.
+                </div>
             </div>
-            <div>
-              Distributed by
-              <a target="_blank" href="https://themewagon.com/">ThemeWagon</a>.
-            </div>
-          </div>
         </footer>
-      </div>
+    </div>
 
-      <!-- Custom template | don't include it in your project! -->
-      <div class="custom-template">
+    <!-- Custom template | don't include it in your project! -->
+    <div class="custom-template">
         <div class="title">Settings</div>
         <div class="custom-content">
-          <div class="switcher">
-            <div class="switch-block">
-              <h4>Logo Header</h4>
-              <div class="btnSwitch">
-                <button
-                  type="button"
-                  class="selected changeLogoHeaderColor"
-                  data-color="dark"
-                ></button>
-                <button
-                  type="button"
-                  class="selected changeLogoHeaderColor"
-                  data-color="blue"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="purple"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="light-blue"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="green"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="orange"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="red"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="white"
-                ></button>
-                <br />
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="dark2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="blue2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="purple2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="light-blue2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="green2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="orange2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="red2"
-                ></button>
-              </div>
+            <div class="switcher">
+                <div class="switch-block">
+                    <h4>Logo Header</h4>
+                    <div class="btnSwitch">
+                        <button
+                                type="button"
+                                class="selected changeLogoHeaderColor"
+                                data-color="dark"
+                        ></button>
+                        <button
+                                type="button"
+                                class="selected changeLogoHeaderColor"
+                                data-color="blue"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeLogoHeaderColor"
+                                data-color="purple"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeLogoHeaderColor"
+                                data-color="light-blue"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeLogoHeaderColor"
+                                data-color="green"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeLogoHeaderColor"
+                                data-color="orange"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeLogoHeaderColor"
+                                data-color="red"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeLogoHeaderColor"
+                                data-color="white"
+                        ></button>
+                        <br/>
+                        <button
+                                type="button"
+                                class="changeLogoHeaderColor"
+                                data-color="dark2"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeLogoHeaderColor"
+                                data-color="blue2"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeLogoHeaderColor"
+                                data-color="purple2"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeLogoHeaderColor"
+                                data-color="light-blue2"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeLogoHeaderColor"
+                                data-color="green2"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeLogoHeaderColor"
+                                data-color="orange2"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeLogoHeaderColor"
+                                data-color="red2"
+                        ></button>
+                    </div>
+                </div>
+                <div class="switch-block">
+                    <h4>Navbar Header</h4>
+                    <div class="btnSwitch">
+                        <button
+                                type="button"
+                                class="changeTopBarColor"
+                                data-color="dark"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeTopBarColor"
+                                data-color="blue"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeTopBarColor"
+                                data-color="purple"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeTopBarColor"
+                                data-color="light-blue"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeTopBarColor"
+                                data-color="green"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeTopBarColor"
+                                data-color="orange"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeTopBarColor"
+                                data-color="red"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeTopBarColor"
+                                data-color="white"
+                        ></button>
+                        <br/>
+                        <button
+                                type="button"
+                                class="changeTopBarColor"
+                                data-color="dark2"
+                        ></button>
+                        <button
+                                type="button"
+                                class="selected changeTopBarColor"
+                                data-color="blue2"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeTopBarColor"
+                                data-color="purple2"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeTopBarColor"
+                                data-color="light-blue2"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeTopBarColor"
+                                data-color="green2"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeTopBarColor"
+                                data-color="orange2"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeTopBarColor"
+                                data-color="red2"
+                        ></button>
+                    </div>
+                </div>
+                <div class="switch-block">
+                    <h4>Sidebar</h4>
+                    <div class="btnSwitch">
+                        <button
+                                type="button"
+                                class="selected changeSideBarColor"
+                                data-color="white"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeSideBarColor"
+                                data-color="dark"
+                        ></button>
+                        <button
+                                type="button"
+                                class="changeSideBarColor"
+                                data-color="dark2"
+                        ></button>
+                    </div>
+                </div>
             </div>
-            <div class="switch-block">
-              <h4>Navbar Header</h4>
-              <div class="btnSwitch">
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="dark"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="blue"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="purple"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="light-blue"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="green"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="orange"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="red"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="white"
-                ></button>
-                <br />
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="dark2"
-                ></button>
-                <button
-                  type="button"
-                  class="selected changeTopBarColor"
-                  data-color="blue2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="purple2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="light-blue2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="green2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="orange2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="red2"
-                ></button>
-              </div>
-            </div>
-            <div class="switch-block">
-              <h4>Sidebar</h4>
-              <div class="btnSwitch">
-                <button
-                  type="button"
-                  class="selected changeSideBarColor"
-                  data-color="white"
-                ></button>
-                <button
-                  type="button"
-                  class="changeSideBarColor"
-                  data-color="dark"
-                ></button>
-                <button
-                  type="button"
-                  class="changeSideBarColor"
-                  data-color="dark2"
-                ></button>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-      <!-- End Custom template -->
     </div>
-    <!--   Core JS Files   -->
-    <script src="{{ url_for('static', path='/assets/js/core/jquery-3.7.1.min.js') }}"></script>
+    <!-- End Custom template -->
+</div>
+<!--   Core JS Files   -->
+<script src="{{ url_for('static', path='/assets/js/core/jquery-3.7.1.min.js') }}"></script>
 
-    <script src="{{ url_for('static', path='/assets/js/core/popper.min.js') }}"></script>
-    <script src="{{ url_for('static', path='/assets/js/core/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', path='/assets/js/core/popper.min.js') }}"></script>
+<script src="{{ url_for('static', path='/assets/js/core/bootstrap.min.js') }}"></script>
 
-    <!-- jQuery Scrollbar -->
-    <script src="{{ url_for('static', path='/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
-    <!-- Datatables -->
-    <script src="{{ url_for('static', path='/assets/js/plugin/datatables/datatables.min.js') }}"></script>
-    <!-- Kaiadmin JS -->
-    <script src="{{ url_for('static', path='/assets/js/kaiadmin.min.js') }}"></script>
-    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <script src="{{ url_for('static', path='/assets/js/setting-demo2.js') }}"></script>
-    <script>
-      $(document).ready(function () {
-        $("#basic-datatables").DataTable({"searching": false,  "paging": false, "info": false});
+<!-- jQuery Scrollbar -->
+<script src="{{ url_for('static', path='/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
+<!-- Datatables -->
+<script src="{{ url_for('static', path='/assets/js/plugin/datatables/datatables.min.js') }}"></script>
+<!-- Kaiadmin JS -->
+<script src="{{ url_for('static', path='/assets/js/kaiadmin.min.js') }}"></script>
+<!-- Kaiadmin DEMO methods, don't include it in your project! -->
+<script src="{{ url_for('static', path='/assets/js/setting-demo2.js') }}"></script>
+<script>
+    $(document).ready(function () {
+      $("#basic-datatables").DataTable({"searching": false,  "paging": false, "info": false, "sorting": "false"});
 
-        $("#multi-filter-select").DataTable({
-          pageLength: 5,
-          initComplete: function () {
-            this.api()
-              .columns()
-              .every(function () {
-                var column = this;
-                var select = $(
-                  '<select class="form-select"><option value=""></option></select>'
-                )
-                  .appendTo($(column.footer()).empty())
-                  .on("change", function () {
-                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+      $("#multi-filter-select").DataTable({
+        pageLength: 5,
+        initComplete: function () {
+          this.api()
+            .columns()
+            .every(function () {
+              var column = this;
+              var select = $(
+                '<select class="form-select"><option value=""></option></select>'
+              )
+                .appendTo($(column.footer()).empty())
+                .on("change", function () {
+                  var val = $.fn.dataTable.util.escapeRegex($(this).val());
 
-                    column
-                      .search(val ? "^" + val + "$" : "", true, false)
-                      .draw();
-                  });
+                  column
+                    .search(val ? "^" + val + "$" : "", true, false)
+                    .draw();
+                });
 
-                column
-                  .data()
-                  .unique()
-                  .sort()
-                  .each(function (d, j) {
-                    select.append(
-                      '<option value="' + d + '">' + d + "</option>"
-                    );
-                  });
-              });
-          },
-        });
-
-        // Add Row
-        $("#add-row").DataTable({
-          pageLength: 5,
-        });
-
-        var action =
-          '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
-
-        $("#addRowButton").click(function () {
-          $("#add-row")
-            .dataTable()
-            .fnAddData([
-              $("#addName").val(),
-              $("#addPosition").val(),
-              $("#addOffice").val(),
-              action,
-            ]);
-          $("#addRowModal").modal("hide");
-        });
+              column
+                .data()
+                .unique()
+                .sort()
+                .each(function (d, j) {
+                  select.append(
+                    '<option value="' + d + '">' + d + "</option>"
+                  );
+                });
+            });
+        },
       });
-    </script>
-  </body>
+
+      // Add Row
+      $("#add-row").DataTable({
+        pageLength: 5,
+      });
+
+      var action =
+        '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+      $("#addRowButton").click(function () {
+        $("#add-row")
+          .dataTable()
+          .fnAddData([
+            $("#addName").val(),
+            $("#addPosition").val(),
+            $("#addOffice").val(),
+            action,
+          ]);
+        $("#addRowModal").modal("hide");
+      });
+    });
+</script>
+</body>
 </html>

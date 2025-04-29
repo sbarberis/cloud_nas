@@ -1,16 +1,16 @@
 import mysql.connector
 import json
+from typing import Tuple
+
 
 class MySqlFunctions:
     def __init__(self):
         dbconfig = self.load_configs()
 
-        self.cnx = mysql.connector.connect(pool_name="mysql_pool_connections",
-                                           pool_size=20,
-                                           **dbconfig)
+        self.connector = mysql.connector.connect(**dbconfig)
 
     def get_connection(self):
-        return self.cnx
+        return self.connector
 
     @staticmethod
     def load_configs() -> dict:
@@ -30,8 +30,8 @@ class MySqlFunctions:
             result = mysql_cursor.fetchall()
             return result
         finally:
-            mysql_cursor.close()
-            connection.close()
+            if mysql_cursor:
+                mysql_cursor.close()
 
 
 class MySqlDataInterface(MySqlFunctions):
@@ -41,5 +41,11 @@ class MySqlDataInterface(MySqlFunctions):
     def fetch_all_users(self) -> list:
         return self.fetch_data('select * from utenti')
 
-    def fetch_file_su_server(self, offset: int = 0, limit: int | None = None) -> list:
-        return self.fetch_data('select * from files_su_server', offset=offset, limit=limit)
+    def fetch_file_su_server(self, form_search, offset: int = 0, limit: int | None = None) -> list:
+        base_query = 'select * from files_su_server'
+        if form_search:
+            if form_search.file_name:
+                file_name = form_search.file_name.lower()
+                base_query = f"{base_query} where lower(fs_nome_file) like \'%{file_name}%\'"
+
+        return self.fetch_data(base_query, offset=offset, limit=limit)

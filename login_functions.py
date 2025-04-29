@@ -68,7 +68,7 @@ async def auth(form_data: Annotated[FormData, Form()]):
     response.set_cookie(
         key="user_session",
         value=jwt_token,
-        max_age=3600
+        max_age=14400
     )
 
     return response

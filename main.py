@@ -17,6 +17,7 @@ import ffmpeg
 import os
 from typing import Tuple, Any
 from fastapi.responses import RedirectResponse
+from pydantic import BaseModel
 
 EXCLUDED_FILES = ['.DS_Store']
 
@@ -30,7 +31,7 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-
+mysql_interface = MySqlDataInterface()
 app = FastAPI(title="Cloud NAS", description="NAS swagger app")
 app.include_router(login_router)
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -38,6 +39,11 @@ templates = Jinja2Templates(directory="templates")
 
 firestore_instance = FirestoreMngr(settings.project_id, settings.firestore_repo)
 bucket_mngr = BucketMngr(settings.project_id, settings.bucket_name)
+
+
+class FormSearch(BaseModel):
+    file_name: str | None = None
+    offset: str
 
 
 @app.get("/download")
@@ -137,31 +143,83 @@ async def datatables(request: Request, offset: int, current_user: Annotated[str,
     if not current_user:
         return RedirectResponse('/login', status_code=303)
 
-    mysql_interface = MySqlDataInterface()
-    file_su_server = mysql_interface.fetch_file_su_server(offset=offset, limit=20)
+    file_su_server = mysql_interface.fetch_file_su_server(None, offset=offset, limit=20)
+
+    total_size = mysql_interface.fetch_file_su_server(
+        None,
+        offset=0)
+
+    last_page_offset = len(total_size) - 20
 
     prev_data, next_data = update_prev_next(offset)
+
+    current_page = (next_data / 20) + 1 if next_data % 20 > 0 else (next_data / 20)
+    total_pages = (len(total_size) // 20) + 1 if len(total_size) % 20 > 0 else len(total_size) / 20
+
+    print(len(total_size))
+    print(int(current_page))
+    print(total_pages)
 
     return templates.TemplateResponse(
         request=request,
         name="tables/datatables.html",
-        context={'file_su_server': file_su_server, 'prev': prev_data, 'next': next_data, 'current_user': current_user}
+        context={
+            'file_su_server': file_su_server,
+            'prev': prev_data, 'next': next_data,
+            'current_user': current_user,
+            'last_page_offset': last_page_offset,
+            'total_size': len(total_size),
+            'current_page': int(current_page),
+            'total_pages': total_pages
+        },
     )
 
 
-@app.get("/set-cookie/")
-def create_cookie(response: Response):
-    response.set_cookie(
-        key="usersession",
-        value="{'id': '123', 'user': 'username@mail.com'}",
-        max_age=10
+@app.post('/data_paging')
+async def data_paging(
+        request: Request,
+        form_search: Annotated[FormSearch, Form()],
+        current_user: Annotated[str,
+        Depends(check_cookie)]):
+
+    if not current_user:
+        return RedirectResponse('/login', status_code=303)
+
+    file_su_server = mysql_interface.fetch_file_su_server(
+        form_search,
+        offset=int(form_search.offset),
+        limit=20)
+
+    total_size = mysql_interface.fetch_file_su_server(
+        form_search,
+        offset=0)
+
+    last_page_offset = len(total_size)-20
+
+    prev_data, next_data = update_prev_next(int(form_search.offset))
+
+    current_page = (next_data / 20) + 1 if next_data % 20 > 0 else (next_data / 20)
+    total_pages = (len(total_size) // 20) + 1 if len(total_size) % 20 > 0 else len(total_size) / 20
+
+    print(len(total_size))
+    print(int(current_page))
+    print(total_pages)
+
+    return templates.TemplateResponse(
+        request=request,
+        name="tables/datatables.html",
+        context={
+            'file_su_server': file_su_server,
+            'prev': prev_data,
+            'next': next_data,
+            'current_user': current_user,
+            'file_name': form_search.file_name,
+            'last_page_offset': last_page_offset,
+            'total_size': len(total_size),
+            'current_page': int(current_page),
+            'total_pages': total_pages
+        }
     )
-    return {"message": "Come to the dark side, we have cookies"}
-
-
-@app.get("/verify")
-def verify_login(cookie: Annotated[str, Depends(check_cookie)]):
-    print(cookie)
 
 
 def update_prev_next(offset: int) -> Tuple[int, int]:
@@ -200,7 +258,6 @@ def load_metadata_from_file(filepath: str) -> dict:
 
 @app.get('/users')
 async def get_users():
-    mysql_interface = MySqlDataInterface()
     users = mysql_interface.fetch_all_users()
 
     for row in users:
