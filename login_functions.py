@@ -1,12 +1,13 @@
-from fastapi import FastAPI, Header, Form, APIRouter, HTTPException, status, Cookie
+from fastapi import Form, APIRouter, HTTPException, status, Cookie, Request
 from typing import Annotated
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from datetime import timezone
 import datetime
 import jwt
 import json
+from typing import Any
 
 
 login_router = APIRouter()
@@ -52,6 +53,13 @@ def encode_jwt_data(payload: str) -> str:
     return encoded_jwt
 
 
+@login_router.get("/login")
+async def login(request: Request):
+    return templates.TemplateResponse(
+        request=request, name="login.html"
+    )
+
+
 @login_router.get('/logout')
 def logout():
     response = RedirectResponse('/login', status_code=303)
@@ -73,4 +81,13 @@ async def auth(form_data: Annotated[FormData, Form()]):
 
     return response
 
+
+def check_cookie(user_session: Annotated[str | None, Cookie()] = None) -> Any:
+    try:
+        current_user = decode_jwt_data(user_session)
+    except HTTPException:
+        return None
+    if not user_session:
+        return None
+    return current_user
 

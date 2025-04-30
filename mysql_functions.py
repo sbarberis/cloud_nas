@@ -1,6 +1,5 @@
 import mysql.connector
 import json
-from typing import Tuple
 
 
 class MySqlFunctions:
@@ -20,8 +19,9 @@ class MySqlFunctions:
 
     def fetch_data(self, query: str, offset: int = 0, limit: int | None = None) -> list:
         mysql_cursor = None
-        connection = None
         try:
+            if offset < 0:
+                offset = 0
             connection = self.get_connection()
             mysql_cursor = connection.cursor(dictionary=True)
             if limit:

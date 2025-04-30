@@ -1,0 +1,68 @@
+firestore_instance = FirestoreMngr(settings.project_id, settings.firestore_repo)
+bucket_mngr = BucketMngr(settings.project_id, settings.bucket_name)
+
+
+
+@app.get("/download")
+async def download():
+    headers = {'Content-Disposition': 'attachment; filename="images.png"'}
+    return FileResponse('images.png', headers=headers)
+
+
+def create_document(name: str, file_name: str):
+    return {
+        'name': name,
+        'file_name': file_name,
+        'upload_date': datetime.now().strftime('%Y-%m-%d')
+    }
+
+
+@app.post("/create/documents")
+async def create_documents():
+    for index in range(10):
+        document = {
+            'index': index,
+            'name': f"document {index}"
+        }
+        firestore_instance.create_document_with_id('documents', document, f"document{index}")
+    return "completed"
+
+
+
+@app.post("/upload")
+async def upload(upload_file: Annotated[UploadFile, File()], name: Annotated[str, Form()]):
+    try:
+        file_content = upload_file.file.read()
+        with open(upload_file.filename, 'wb') as f:
+            f.write(file_content)
+
+        bucket_mngr.upload_blob(upload_file.filename, upload_file.filename)
+
+        firestore_instance.create_document_with_id('documents', create_document(name=name,
+                                                                                file_name=upload_file.filename))
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f'Something went wrong {e}')
+    finally:
+        upload_file.file.close()
+
+    return {"message": f"Successfully uploaded {upload_file.filename}"}
+
+
+@app.get("/pagination/{direction}")
+async def page_result(direction: str, start_from: str | None = None):
+    if start_from:
+        doc = firestore_instance.get_document_by_id('documents', start_from)
+        if direction == 'forward':
+            documents = firestore_instance.get_collection('documents').order_by('index').start_after(doc).limit(3)
+        else:
+            documents = firestore_instance.get_collection('documents').order_by('index',
+                                                                                direction='DESCENDING').start_after(
+                doc).limit(3)
+    else:
+        documents = firestore_instance.get_collection('documents').order_by('index').limit(3)
+
+    doclist = list(documents.stream())
+
+    for document in list(reversed(doclist)):
+        print(document.id)
