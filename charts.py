@@ -1,7 +1,9 @@
-from fastapi import Request
+from fastapi import Request, APIRouter
 from fastapi.templating import Jinja2Templates
 
 templates = Jinja2Templates(directory="templates")
+
+chart_router = APIRouter()
 
 
 def chart(request: Request):

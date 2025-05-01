@@ -6,10 +6,11 @@ class MySqlFunctions:
     def __init__(self):
         dbconfig = self.load_configs()
 
-        self.connector = mysql.connector.connect(**dbconfig)
+        self.cnx = mysql.connector.connect(pool_name="mypool",
+                                           **dbconfig)
 
     def get_connection(self):
-        return self.connector
+        return self.cnx
 
     @staticmethod
     def load_configs() -> dict:
@@ -40,6 +41,20 @@ class MySqlDataInterface(MySqlFunctions):
 
     def fetch_all_users(self) -> list:
         return self.fetch_data('select * from utenti')
+
+    def row_count(self, table_name: str) -> int:
+        base_query = f'select count(*) tot from {table_name}'
+        result = self.fetch_data(base_query, 0)
+        total = 0
+        for row in result:
+            total = row['tot']
+        return total
+
+    def fetch_file_on_server_count(self) -> int:
+        return self.row_count('files_su_server')
+
+    def fetch_file_on_tape_count(self):
+        return self.row_count('files_su_nastro')
 
     def fetch_file_su_server(self, form_search, offset: int = 0, limit: int | None = None) -> list:
         base_query = 'select * from files_su_server'

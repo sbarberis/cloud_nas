@@ -11,6 +11,7 @@ from file_on_server import file_on_server_router
 import uvicorn
 from fastapi.responses import RedirectResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
+import locale
 
 EXCLUDED_FILES = ['.DS_Store']
 
@@ -34,13 +35,26 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 
+def _format_number(number: int) -> str:
+    locale.setlocale(locale.LC_ALL, 'it_IT')
+    return locale.format_string('%.0f', number, True)
+
+
 @app.get('/')
 async def index(request: Request, current_user: Annotated[str, Depends(check_cookie)]):
     if not current_user:
         return RedirectResponse('/login', status_code=303)
     else:
+
+        file_on_server_count = _format_number(mysql_interface.fetch_file_on_server_count())
+        file_on_tape_count = _format_number(mysql_interface.fetch_file_on_tape_count())
+
         return templates.TemplateResponse(
-            request=request, name="index.html", context={'current_user': current_user}
+            request=request,
+            name="index.html",
+            context={'current_user': current_user,
+                     'file_on_server_count': file_on_server_count,
+                     'file_on_tape_count': file_on_tape_count}
         )
 
 
