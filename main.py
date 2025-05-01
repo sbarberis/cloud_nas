@@ -10,6 +10,7 @@ from file_on_server import file_on_server_router
 
 import uvicorn
 from fastapi.responses import RedirectResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 EXCLUDED_FILES = ['.DS_Store']
 
@@ -41,6 +42,36 @@ async def index(request: Request, current_user: Annotated[str, Depends(check_coo
         return templates.TemplateResponse(
             request=request, name="index.html", context={'current_user': current_user}
         )
+
+
+@app.exception_handler(StarletteHTTPException)
+async def custom_http_exception_handler(request: Request, exc: StarletteHTTPException):
+    if exc.status_code == 405:
+        return RedirectResponse("/method_not_allowed", status_code=303)
+    elif exc.status_code == 404:
+        return RedirectResponse("/page_not_found", status_code=303)
+    return RedirectResponse("/generic_error", status_code=303)
+
+
+@app.get("/method_not_allowed")
+async def page_not_found(request: Request):
+    return templates.TemplateResponse(
+        request=request, name="errors/405.html"
+    )
+
+
+@app.get("/page_not_found")
+async def page_not_found(request: Request):
+    return templates.TemplateResponse(
+        request=request, name="errors/404.html"
+    )
+
+
+@app.get("/generic_error")
+async def generic_error(request: Request):
+    return templates.TemplateResponse(
+        request=request, name="errors/500.html"
+    )
 
 
 if __name__ == "__main__":

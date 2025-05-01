@@ -5,25 +5,24 @@ EXCLUDED_FILES = ['.DS_Store']
 
 
 class MetaDataLoader:
-    def __init__(self):
-        pass
+    def __init__(self, path: str):
+        self.path = path
 
-    @staticmethod
-    def get_metadata(filepath: str):
+    def get_metadata(self):
         metadata = []
 
-        for f in os.listdir(filepath):
+        for f in os.listdir(self.path):
             if f not in EXCLUDED_FILES:
-                full_path = f"{filepath}{f}"
+                full_path = f"{self.path}{f}"
                 metadata.append(MetaDataLoader.load_metadata_from_file(full_path))
 
         return metadata
 
     @staticmethod
-    def load_metadata_from_file(filepath: str) -> dict:
+    def load_metadata_from_file(file_path: str) -> dict:
         metadata = None
         try:
-            metadata = ffmpeg.probe(filename=f"{filepath}", cmd='/opt/homebrew/bin/ffprobe')
+            metadata = ffmpeg.probe(filename=f"{file_path}", cmd='/opt/homebrew/bin/ffprobe')
         except ffmpeg.Error as e:
             print(f'Error {e}')
 

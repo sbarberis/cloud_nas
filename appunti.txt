@@ -66,3 +66,67 @@ async def page_result(direction: str, start_from: str | None = None):
 
     for document in list(reversed(doclist)):
         print(document.id)
+
+
+######## Modal Form ############
+
+<!-- Bottone per aprire la modale -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Apri Form
+</button>
+
+<!-- Modale Bootstrap -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Login</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Form -->
+      <form id="loginForm">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="emailInput" class="form-label">Email</label>
+            <input type="email" class="form-control" id="emailInput" required>
+          </div>
+          <div class="mb-3">
+            <label for="passwordInput" class="form-label">Password</label>
+            <input type="password" class="form-control" id="passwordInput" required>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+          <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita invio form tradizionale
+
+    const email = document.getElementById('emailInput').value;
+    const password = document.getElementById('passwordInput').value;
+
+    // Fai qualcosa con i dati (es: login, fetch, ecc.)
+    console.log("Email:", email, "Password:", password);
+
+    // Chiudi la modale
+    const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
+    modal.hide();
+  });
+</script>
+
+
+######## Modal Form ############

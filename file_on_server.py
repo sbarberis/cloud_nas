@@ -1,13 +1,13 @@
-from fastapi import  Request, HTTPException, Form, Cookie, Depends, APIRouter
+from fastapi import  Request, Form, Depends, APIRouter
 from fastapi.templating import Jinja2Templates
 
-import login_functions
 from typing import Annotated
 from mysql_functions import MySqlDataInterface
 
 from typing import Tuple, Any
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
+from login_functions import check_cookie
 
 
 mysql_interface = MySqlDataInterface()
@@ -19,17 +19,6 @@ file_on_server_router = APIRouter()
 class FormSearch(BaseModel):
     file_name: str | None = None
     offset: str
-
-
-def check_cookie(user_session: Annotated[str | None, Cookie()] = None) -> Any:
-
-    try:
-        current_user = login_functions.decode_jwt_data(user_session)
-    except HTTPException:
-        return None
-    if not user_session:
-        return None
-    return current_user
 
 
 @file_on_server_router.get("/login")
